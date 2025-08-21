@@ -4,6 +4,9 @@ dirs=(
 	tmux
 	vim
 	neovim
+	polybar
+	notion
+	xxkb
 )
 
 for d in ${dirs[*]}
