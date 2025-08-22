@@ -24,5 +24,9 @@ call plug#begin()
 Plug 'laktak/tome'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'vimwiki/vimwiki'
 call plug#end()
 
+" vimwiki
+let g:vimwiki_list = [{'path': '~/WORK/vimwiki/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
