@@ -25,6 +25,7 @@ Plug 'laktak/tome'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'vimwiki/vimwiki'
+Plug 'tpope/vim-fugitive'
 call plug#end()
 
 " vimwiki
