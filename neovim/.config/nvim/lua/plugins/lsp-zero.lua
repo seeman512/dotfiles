@@ -114,7 +114,7 @@ return{
 
       -- These are just examples. Replace them with the language
       -- servers you have installed in your system
-      require("lspconfig").tsserver.setup({})
+      -- require("lspconfig").tsserver.setup({})
 
       -- golang
       require("lspconfig").gopls.setup({
@@ -145,6 +145,14 @@ return{
             },
           },
         },
+      })
+      -- rust
+      require("lspconfig").rust_analyzer.setup({
+        cmd = { 'rust-analyzer' },
+        filetypes = { 'rust' },
+        root_dir = util.root_pattern("Cargo.toml", "rust-project.json"),
+        settings = {
+        }
       })
     end
   }
