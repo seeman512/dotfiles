@@ -117,22 +117,10 @@ return{
       -- require("lspconfig").tsserver.setup({})
 
       -- golang
-      require("lspconfig").gopls.setup({
-        cmd = { 'gopls', 'serve' },
-        filetypes = { 'go', 'go.mod' },
-        root_dir = util.root_pattern('go.work', 'go.mod', '.git'),
-        settings = {
-          gopls = {
-            analyses = {
-              unusedparams = true,
-              shadow = true,
-            },
-            staticcheck = true,
-          }
-        }
-      })
-      require("lspconfig").pyright.setup({
-        on_attach = on_attach,
+      vim.lsp.enable("gopls")
+
+      -- require("lspconfig").pyright.setup({
+      vim.lsp.config("pyright", {
         capabilities = capabilities,
         root_dir = util.root_pattern("pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "Pipfile", "pyrightconfig.json"),
         settings = {
@@ -146,14 +134,17 @@ return{
           },
         },
       })
+      vim.lsp.enable({"pyright"})
       -- rust
-      require("lspconfig").rust_analyzer.setup({
+      -- require("lspconfig").rust_analyzer.setup({
+      vim.lsp.config("rust_analyzer", {
         cmd = { 'rust-analyzer' },
         filetypes = { 'rust' },
         root_dir = util.root_pattern("Cargo.toml", "rust-project.json"),
         settings = {
         }
       })
+      vim.lsp.enable({"rust_analyzer"})
     end
   }
 }

@@ -2,7 +2,7 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     config = function()
-      require("nvim-treesitter.configs").setup({
+      require("nvim-treesitter.config").setup({
         enusure_installed = { "c", "lua", "vim", "vimdoc", "query", "javascript", "help", "cmake", "go",},
 
         auto_install = true,
