@@ -45,5 +45,14 @@ map("n", ">", ":tabnext<CR>", {noremap = true, silent = true })
 map("n", "t", ":tabnew<CR>", {noremap = true, silent = true })
 map("n", "T", ":split | term<CR>i", { noremap = true, silent = true })
 
+map("n", "<leader>1", ":tabnext1<CR>", {noremap = true, silent = true })
+map("n", "<leader>2", ":tabnext2<CR>", {noremap = true, silent = true })
+map("n", "<leader>3", ":tabnext3<CR>", {noremap = true, silent = true })
+map("n", "<leader>4", ":tabnext4<CR>", {noremap = true, silent = true })
+map("n", "<leader>5", ":tabnext5<CR>", {noremap = true, silent = true })
+map("n", "<leader>6", ":tabnext6<CR>", {noremap = true, silent = true })
+map("n", "<leader>7", ":tabnext7<CR>", {noremap = true, silent = true })
+map("n", "<leader>8", ":tabnext8<CR>", {noremap = true, silent = true })
+
 -- Lazy
 require("config.lazy")
