@@ -36,6 +36,9 @@ vim.opt.mouse = ""
 -- disable search highlight
 vim.o.hlsearch = false
 
+-- Diagnostic
+vim.o.signcolumn = "yes"
+
 -- KEYMAPS
 vim.g.mapleader = " "
 
@@ -54,5 +57,120 @@ map("n", "<leader>6", ":tabnext6<CR>", {noremap = true, silent = true })
 map("n", "<leader>7", ":tabnext7<CR>", {noremap = true, silent = true })
 map("n", "<leader>8", ":tabnext8<CR>", {noremap = true, silent = true })
 
--- Lazy
-require("config.lazy")
+-- AUTOCOMLETE
+vim.o.autocomplete = true
+vim.o.pumborder = 'rounded'
+vim.o.pummaxwidth = 60
+vim.o.completeopt = 'menu,menuone,noinsert,fuzzy,popup'
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("lsp_completion", { clear = true }),
+  callback = function(args)
+    local client_id = args.data.client_id
+    if not client_id then
+      return
+    end
+
+    local client = vim.lsp.get_client_by_id(client_id)
+    if client and client:supports_method("textDocument/completion") then
+
+      -- Enable native LSP completion for this client + buffer
+      vim.lsp.completion.enable(true, client_id, args.buf, {
+        autotrigger = true,   -- auto-show menu as you type (recommended)
+        -- You can also set { autotrigger = false } and trigger manually with <C-x><C-o>
+      })
+
+      -- keys
+      local map = function(keys, func, desc)
+        vim.keymap.set('n', keys, func, { buffer = args.buf, desc = 'LSP: ' .. desc })
+      end
+      map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+      map('gr', vim.lsp.buf.references, '[G]oto [R]eferences')
+      map('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
+      map('gt', vim.lsp.buf.type_definition, '[G]oto [T]Type Definition')
+      map('K', vim.lsp.buf.hover, 'Hover Documentation')
+      map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+      map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+    end
+  end,
+})
+
+-- LSP
+
+-- gopls
+vim.lsp.config['gopls'] = {
+  cmd = { 'gopls' },
+  filetypes = { 'go', 'gomod' },
+  root_markers = { '.git', 'go.mod' },
+}
+vim.lsp.enable('gopls')
+
+vim.cmd('colorscheme wildcharm')
+
+-- PLUGINS
+vim.pack.add({
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter",
+    version = 'main'
+  },
+  { src = "https://github.com/junegunn/fzf" },
+  { src = "https://github.com/junegunn/fzf.vim" },
+  { src = "https://github.com/tpope/vim-fugitive" },
+  { src = "https://github.com/nvim-tree/nvim-web-devicons" },
+  { src = "https://github.com/nvim-lualine/lualine.nvim" },
+})
+
+-- lualine
+require('lualine').setup({
+  options = {
+    icons_enabled = true,
+    theme = 'dracula',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {
+      statusline = {},
+      winbar = {},
+    },
+    ignore_focus = {},
+    always_divide_middle = true,
+    globalstatus = false,
+    refresh = {
+      -- statusline = 1000,
+      -- tabline = 1000,
+      -- winbar = 1000,
+    }
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'filename'},
+    lualine_c = {'branch', 'diff', 'diagnostics'},
+    lualine_x = {'encoding', 'fileformat'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = { },
+  winbar = {},
+  inactive_winbar = {},
+  extensions = {}
+})
+
+-- treesitter
+require("nvim-treesitter.config").setup({
+  build = ":TSUpdate",
+  enusure_installed = { "c", "lua", "vim", "vimdoc", "query", "javascript", "help", "cmake", "go",},
+  auto_install = false,
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
+  indent = {
+    enable = true,
+  },
+})
