@@ -118,7 +118,21 @@ vim.api.nvim_create_autocmd('BufWritePre', {
   end,
 })
 
-vim.cmd('colorscheme torte')
+-- tsgo
+vim.lsp.config['tsgo'] = {
+  cmd = { 'tsgo', '--lsp', '--stdio' },
+  filetypes = { 'javascript', 'typescript' },
+  root_markers = { '.git', 'package.json' },
+}
+vim.lsp.enable('tsgo')
+
+-- rust
+vim.lsp.config['rust-analyzer'] = {
+  cmd = { 'rust-analyzer' },
+  filetypes = { 'rust' },
+  root_markers = { '.git', 'Cargo.toml' },
+}
+vim.lsp.enable('rust-analyzer')
 
 -- PLUGINS
 vim.pack.add({
@@ -130,7 +144,11 @@ vim.pack.add({
   { src = "https://github.com/tpope/vim-fugitive" },
   { src = "https://github.com/nvim-tree/nvim-web-devicons" },
   { src = "https://github.com/nvim-lualine/lualine.nvim" },
+  { src = "https://github.com/rebelot/kanagawa.nvim" },
 })
+
+-- COLORSCHEME
+vim.cmd('colorscheme kanagawa-wave')
 
 -- lualine
 require('lualine').setup({
