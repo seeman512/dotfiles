@@ -102,10 +102,23 @@ vim.lsp.config['gopls'] = {
   cmd = { 'gopls' },
   filetypes = { 'go', 'gomod' },
   root_markers = { '.git', 'go.mod' },
+  settings = {
+    gopls = {
+      staticcheck = true,
+      -- gofumpt = true,
+      completeUnimported = true,
+    },
+  },
 }
 vim.lsp.enable('gopls')
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = '*.go',
+  callback = function()
+    vim.lsp.buf.format({ async = false })
+  end,
+})
 
-vim.cmd('colorscheme wildcharm')
+vim.cmd('colorscheme torte')
 
 -- PLUGINS
 vim.pack.add({
@@ -140,7 +153,7 @@ require('lualine').setup({
     }
   },
   sections = {
-    lualine_a = {'mode'},
+    lualine_a = { 'mode' },
     lualine_b = {'filename'},
     lualine_c = {'branch', 'diff', 'diagnostics'},
     lualine_x = {'encoding', 'fileformat'},
@@ -155,7 +168,17 @@ require('lualine').setup({
     lualine_y = {},
     lualine_z = {}
   },
-  tabline = { },
+  tabline = {
+    lualine_a = {
+      { 'tabs',
+        mode = 2,
+        use_mode_colors = true,
+        path = 0,
+        symbols = { modified = '+', },
+        max_length = vim.o.columns - 1,
+      }
+    },
+  },
   winbar = {},
   inactive_winbar = {},
   extensions = {}
